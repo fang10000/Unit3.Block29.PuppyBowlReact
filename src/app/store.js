@@ -2,7 +2,6 @@
 // Import the API service we defined (which includes the API endpoints and the reducer)
 
 import { configureStore } from '@reduxjs/toolkit';
-import playersReducer from "../features/players/Players";
 import { puppyBowlApi } from '../api/puppyBowlApi';
 
 // Create a Redux store
@@ -12,7 +11,6 @@ const store = configureStore({
     // This means the API service's actions will be dispatched to the API service's reducer.
     reducer: {
         [puppyBowlApi.reducerPath]: puppyBowlApi.reducer,
-        players: playersReducer
       // The key is the reducerPath we defined in our API service, and the value is the reducer
     },
     // Add any additional middleware
