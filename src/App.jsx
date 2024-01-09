@@ -5,9 +5,10 @@ import Players from './features/players/Players';
 
 
 // Define the App component
+// This component renders the Players component inside a div
+// This div has a class of 'App', which we could use for styling
+
 function App() {
-  // This component renders the Players component inside a div
-  // This div has a class of 'App', which we could use for styling
   return (
      <div className="App">
         <Players />
