@@ -22,28 +22,30 @@ const Players = () => {
   
     // Show an error message if the fetch failed
     if (error) {
-       console.log(error.message);
        return <div> Error fetching players: {error.message}</div>
     }
   
     // Show the fetched data after it has arrived
     return (
-      <div className="players">
-      
-        {/* Map through the data array and generate a div for each player */}
-        {data && data.data.players.map((player) => (
-          // Use the player's ID as the key for this div
-          <div key={player.id} className="player-card">
-             <img src={player.imageUrl} alt={player.name} className="player-image" />
-            
-            <div className="player-details">
-              <h2>  {player.name} </h2> 
-              <p>  {player.breed} </p> 
-              <p> {player.status} </p>
+      <>
+        <h1 style={{ textAlign: 'center' }}> Welcome to the PuppyBowl Event</h1>
+        <div className="players">
+        
+          {/* Map through the data array and generate a div for each player */}
+          {data && data.data.players.map((player) => (
+            // Use the player's ID as the key for this div
+            <div key={player.id} className="player-card">
+              <img src={player.imageUrl} alt={player.name} className="player-image" />
+              
+              <div className="player-details">
+                <h2>  {player.name} </h2> 
+                <p>  {player.breed} </p> 
+                <p> {player.status} </p>
+              </div>
             </div>
-          </div>
-        ))}
-      </div>
+          ))}
+        </div>
+      </>
     );
   };
   

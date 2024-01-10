@@ -22,6 +22,9 @@ body {
    /* The player cards are displayed using flexbox. */
  /* The player cards will wrap onto the next line if there is not enough space. */
  /* The player cards are centered on the line. */
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
 }
 
 /* Styling for individual player cards. */
@@ -29,10 +32,13 @@ body {
   width: 360px; /* The width of the card. */
   height: 380px; /* The height of the card. */
   margin: 10px; /* The margin around the card. */
-   /* The background color of the card. */
-/* The border around the card. */
- /* The radius of the card's corners. */
-   /* The shadow effect around the card. */
+  /* The background color of the card. */
+  background-color: cadetblue;
+  /* The border around the card. */
+  border-color: dodgerblue;
+  /* The radius of the card's corners. */
+  border-radius: 10px;
+  /* The shadow effect around the card. */
   overflow: hidden; /* Any content that goes outside the card will be hidden. */
   position: relative; /* The card's position is set to relative so it can be moved using the transform property. */
   transition: transform 0.3s; /* Transition effect for the transform property. */
@@ -41,6 +47,7 @@ body {
 /* Styling for when a user hovers over a player card. */
 .player-card:hover {
   /* The card moves up 5 pixels when hovered over. */
+  transform: translateY(-5px);
 }
 
 /* Styling for the container that holds the player's image. */
@@ -48,6 +55,9 @@ body {
  /* The image is centered. */
  /* The image is centered along the horizontal axis. */
   /* The image is centered along the vertical axis. */
+  display: flex;
+  justify-content: center; /* Centers along the horizontal axis */
+  align-items: center;
   height: 300px; /* The height of the image container. */
   padding: 10px; /* The padding around the image. */
 }
@@ -56,6 +66,8 @@ body {
 .player-image {
   width: 250px; /* The width of the image. */
   height: 250px; /* The height of the image. */
+  display: block;
+  margin: auto;
   /* The image will cover the entire area of its container without distorting its aspect ratio. */
   /* The image is displayed using CSS Grid. */
  /* The margin to the left of the image. */
