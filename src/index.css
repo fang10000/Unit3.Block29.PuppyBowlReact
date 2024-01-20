@@ -30,7 +30,7 @@ body {
 /* Styling for individual player cards. */
 .player-card {
   width: 360px; /* The width of the card. */
-  height: 380px; /* The height of the card. */
+  height: 420px; /* The height of the card. */
   margin: 10px; /* The margin around the card. */
   /* The background color of the card. */
   background-color: cadetblue;
@@ -39,7 +39,8 @@ body {
   /* The radius of the card's corners. */
   border-radius: 10px;
   /* The shadow effect around the card. */
-  overflow: hidden; /* Any content that goes outside the card will be hidden. */
+  overflow:hidden; 
+  /* Any content that goes outside the card will be hidden. */
   position: relative; /* The card's position is set to relative so it can be moved using the transform property. */
   transition: transform 0.3s; /* Transition effect for the transform property. */
 }
