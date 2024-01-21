@@ -60,6 +60,7 @@ const Players = () => {
   };
 
   const handleDeletePlayer = async (playerId) => {
+    console.log("Deleting player with ID:", playerId);
     try {
       const response = await fetch(`https://fsa-puppy-bowl.herokuapp.com/api/2310-UNF-HY-WEB-PT/players/${playerId}`, {
         method: 'DELETE',
@@ -69,8 +70,18 @@ const Players = () => {
       });
 
       if (response.ok) {
-        // Update the state to remove the deleted player
+        // Update the local players state
         setPlayers((prevPlayers) => prevPlayers.filter((player) => player.id !== playerId));
+  
+        // Update the data state to remove the deleted player
+        setData((prevData) => ({
+          ...prevData,
+          data: {
+            ...prevData.data,
+            players: prevData.data.players.filter((player) => player.id !== playerId),
+          },
+        }));
+
         console.log(`Player with ID ${playerId} deleted successfully`);
       } else {
         console.error(`Error deleting player with ID ${playerId}`);
@@ -107,7 +118,7 @@ const Players = () => {
         <Search setSearchValue={setSearchValue} />
       </div>
       <div className="players">
-        <div className="player-card">
+        <div key = '99999' className="player-card">
           <AddPlayerForm onAddPlayer={handleAddPlayer} setPlayers={setPlayers} />
         </div>
 
