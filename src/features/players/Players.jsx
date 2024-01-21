@@ -1,20 +1,23 @@
-import React, { useState, useEffect } from 'react';
-import { useFetchPlayersQuery } from '../../api/puppyBowlApi';
+import React, { useState, useEffect } from "react";
+import { useFetchPlayersQuery } from "../../api/puppyBowlApi";
 
-import Search from '../search/Search';
-import AddPlayerForm from '../addPlayer/AddPlayerForm';
-import Player from '../drawer/Player';
-import Delete from '../delete/Delete';
+import Search from "../search/Search";
+import AddPlayerForm from "../addPlayer/AddPlayerForm";
+import Player from "../drawer/Player";
+import Delete from "../delete/Delete";
 
-import '../../index.css';
+import "../../index.css";
 
 const Players = () => {
-
   const [players, setPlayers] = useState([]);
-  const [searchValue, setSearchValue] = useState('');
+  const [searchValue, setSearchValue] = useState("");
   const [selectedPlayer, setSelectedPlayer] = useState(null);
 
-  const { data: fetchedData, error, isLoading } = useFetchPlayersQuery(searchValue);
+  const {
+    data: fetchedData,
+    error,
+    isLoading,
+  } = useFetchPlayersQuery(searchValue);
 
   // Initialize the data state
   const [data, setData] = useState({ data: { players: [] } });
@@ -28,57 +31,69 @@ const Players = () => {
 
   const handleAddPlayer = async (newPlayerData) => {
     try {
-      const response = await fetch('https://fsa-puppy-bowl.herokuapp.com/api/2310-UNF-HY-WEB-PT/players', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(newPlayerData),
-      });
-  
+      const response = await fetch(
+        "https://fsa-puppy-bowl.herokuapp.com/api/2310-UNF-HY-WEB-PT/players",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(newPlayerData),
+        }
+      );
+
       if (response.ok) {
-        // Update the local players state
-        setPlayers((prevPlayers) => [...prevPlayers, newPlayerData]);
-  
-        // Update the data object used for rendering the players
-        // Assuming data object has the same structure as your current usage
-        setData((prevData) => ({
+        const addedPlayer = await response.json();
+        
+        // Access the new player data from the nested structure
+        const newPlayer = addedPlayer.data.newPlayer;
+    
+        setPlayers(prevPlayers => [...prevPlayers, newPlayer]);
+    
+        setData(prevData => ({
           ...prevData,
           data: {
             ...prevData.data,
-            players: [...prevData.data.players, newPlayerData],
+            players: [...prevData.data.players, newPlayer],
           },
         }));
-  
-        console.log('Player added successfully');
+
+        console.log("Player added successfully");
       } else {
-        console.error('Error adding player');
+        console.error("Error adding player");
       }
     } catch (error) {
-      console.error('Network error during add operation', error);
+      console.error("Network error during add operation", error);
     }
   };
 
   const handleDeletePlayer = async (playerId) => {
     console.log("Deleting player with ID:", playerId);
     try {
-      const response = await fetch(`https://fsa-puppy-bowl.herokuapp.com/api/2310-UNF-HY-WEB-PT/players/${playerId}`, {
-        method: 'DELETE',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      });
+      const response = await fetch(
+        `https://fsa-puppy-bowl.herokuapp.com/api/2310-UNF-HY-WEB-PT/players/${playerId}`,
+        {
+          method: "DELETE",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
 
       if (response.ok) {
         // Update the local players state
-        setPlayers((prevPlayers) => prevPlayers.filter((player) => player.id !== playerId));
-  
+        setPlayers((prevPlayers) =>
+          prevPlayers.filter((player) => player.id !== playerId)
+        );
+
         // Update the data state to remove the deleted player
         setData((prevData) => ({
           ...prevData,
           data: {
             ...prevData.data,
-            players: prevData.data.players.filter((player) => player.id !== playerId),
+            players: prevData.data.players.filter(
+              (player) => player.id !== playerId
+            ),
           },
         }));
 
@@ -87,7 +102,7 @@ const Players = () => {
         console.error(`Error deleting player with ID ${playerId}`);
       }
     } catch (error) {
-      console.error('Network error during delete operation', error);
+      console.error("Network error during delete operation", error);
     }
   };
 
@@ -118,15 +133,22 @@ const Players = () => {
         <Search setSearchValue={setSearchValue} />
       </div>
       <div className="players">
-        <div key = '99999' className="player-card">
-          <AddPlayerForm onAddPlayer={handleAddPlayer} setPlayers={setPlayers} />
+        <div key="99999" className="player-card">
+          <AddPlayerForm
+            onAddPlayer={handleAddPlayer}
+            setPlayers={setPlayers}
+          />
         </div>
 
         {/* Map through the filtered players array */}
         {filteredPlayers.map((player) => (
           // Use the player's ID as the key for this div
           <div key={player.id} className="player-card">
-            <img src={player.imageUrl} alt={player.name} className="player-image" />
+            <img
+              src={player.imageUrl}
+              alt={player.name}
+              className="player-image"
+            />
 
             <div className="player-details">
               <h2> {player.name} </h2>
@@ -143,5 +165,3 @@ const Players = () => {
 };
 
 export default Players;
-
-  
