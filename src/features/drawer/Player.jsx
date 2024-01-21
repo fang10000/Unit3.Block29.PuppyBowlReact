@@ -35,7 +35,7 @@ const PlayerDetailButton = ({ player, onDetailsClick }) => {
             <ListItemText primary={`Name: ${player.name}`} />
             <ListItemText primary={`Breed: ${player.breed}`} />
             <ListItemText primary={`Team Id: ${player.teamId}`} />
-            <ListItemText primary={`Cohort Id: ${player.cohortId}`} />
+            <ListItemText primary={`Status: ${player.status}`} />
             {/* Add more details as needed */}
           </ListItem>
         </List>
