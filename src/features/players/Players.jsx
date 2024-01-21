@@ -134,6 +134,7 @@ const Players = () => {
       </div>
       <div className="players">
         <div key="99999" className="player-card">
+          <h2> Add new player </h2>
           <AddPlayerForm
             onAddPlayer={handleAddPlayer}
             setPlayers={setPlayers}
