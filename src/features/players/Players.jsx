@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useFetchPlayersQuery } from '../../api/puppyBowlApi';
 
 import Search from '../search/Search';
@@ -12,9 +12,19 @@ const Players = () => {
 
   const [players, setPlayers] = useState([]);
   const [searchValue, setSearchValue] = useState('');
-  const { data = {}, error, isLoading } = useFetchPlayersQuery(searchValue);
   const [selectedPlayer, setSelectedPlayer] = useState(null);
 
+  const { data: fetchedData, error, isLoading } = useFetchPlayersQuery(searchValue);
+
+  // Initialize the data state
+  const [data, setData] = useState({ data: { players: [] } });
+
+  // Update the data state when fetchedData changes
+  useEffect(() => {
+    if (fetchedData) {
+      setData(fetchedData);
+    }
+  }, [fetchedData]);
 
   const handleAddPlayer = async (newPlayerData) => {
     try {
@@ -25,10 +35,21 @@ const Players = () => {
         },
         body: JSON.stringify(newPlayerData),
       });
-
+  
       if (response.ok) {
-        // Update the state to include the newly added player
+        // Update the local players state
         setPlayers((prevPlayers) => [...prevPlayers, newPlayerData]);
+  
+        // Update the data object used for rendering the players
+        // Assuming data object has the same structure as your current usage
+        setData((prevData) => ({
+          ...prevData,
+          data: {
+            ...prevData.data,
+            players: [...prevData.data.players, newPlayerData],
+          },
+        }));
+  
         console.log('Player added successfully');
       } else {
         console.error('Error adding player');
@@ -87,7 +108,7 @@ const Players = () => {
       </div>
       <div className="players">
         <div className="player-card">
-          <AddPlayerForm onAddPlayer={handleAddPlayer} />
+          <AddPlayerForm onAddPlayer={handleAddPlayer} setPlayers={setPlayers} />
         </div>
 
         {/* Map through the filtered players array */}
